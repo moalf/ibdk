@@ -87,68 +87,11 @@
       .dropdown-menu:hover {
         display: block;
       }
-      td,thead {
-        text-align: left;
-      }
     </style>
 
     
     <!-- Custom styles for this template -->
     <link href="assets/dist/css/main.css" rel="stylesheet">
-
-    <script defer>
-        const xhr = new XMLHttpRequest();
-        const podcastsURL = "https://ibdk.s3.amazonaws.com/podcasts/sermones/rss.xml";
-        xhr.open("GET", podcastsURL);
-        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-        xhr.send();
-    
-        xhr.onload = () => {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                var parser = new DOMParser();
-                var l = xhr.response.length;
-                var xmlDoc = parser.parseFromString(xhr.response, "text/xml");
-    
-                var items = xmlDoc.getElementsByTagName("item");
-                var counter = 1;
-                for (var i = 0; i < items.length; i++) {
-                    var title = items[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-                    var duration = items[i].getElementsByTagName("itunes:duration")[0].childNodes[0].nodeValue;
-                    var url = items[i].getElementsByTagName("enclosure")[0].getAttribute('url');
-                    // console.log(`${i + 1} (${duration}) - Title: ${title} : ${url}`);
-                    var sermonRow = document.createElement("tr");
-
-                    // Item number
-                    var sermonRowItem = document.createElement("td");
-                    var nodeDataItem = document.createTextNode(counter);
-                    sermonRowItem.appendChild(nodeDataItem);
-
-                    // Title
-                    var sermonRowTitle = document.createElement("td");
-                    var nodeDataTitle = document.createTextNode(title);
-                    sermonRowTitle.appendChild(nodeDataTitle);
-
-                    // Player
-                    var sermonRowPlayer = document.createElement("audio");
-                    var nodeDataPlayer = document.createTextNode(title);
-                    sermonRowPlayer.appendChild(nodeDataPlayer);
-                    sermonRowPlayer.id       = 'audio-player';
-                    sermonRowPlayer.controls = 'controls';
-                    sermonRowPlayer.src      = url;
-                    sermonRowPlayer.type     = 'audio/mpeg';
-
-                    sermonRow.appendChild(sermonRowItem);
-                    sermonRow.appendChild(sermonRowTitle);
-                    sermonRow.appendChild(sermonRowPlayer);
-
-                    document.getElementById("sermons-row-data").appendChild(sermonRow);
-                    counter = counter + 1;
-                }
-            } else {
-                console.log(`Error: ${xhr.status}`);
-            }
-        };
-    </script>
   </head>
 
   <body>
@@ -255,7 +198,7 @@
         <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="reuniones.html">Reuniones</a>
         <a class="me-3 py-2 link-body-emphasis text-decoration-none nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Recursos</a>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="sermones.html">Sermones</a></li>
+          <li><a class="dropdown-item" href="sermones.html">Sermones</a></li>
         </ul>
         <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="contacto.html">Contacto</a>
         <!-- <a class="py-2 link-body-emphasis text-decoration-none" href="#">Inicio</a> -->
@@ -275,27 +218,42 @@
       height: 70vh">
       
       <div class="col-lg-9 px-0">
-        <h1 class="display-8 fst-italic">Anunciamos al Único y Suficiente Salvador</h1>
-        <p class="lead my-3">"...pero nosotros predicamos a Cristo crucificado, para los judíos ciertamente tropezadero, y para los gentiles locura; mas para los llamados, así judíos como griegos, Cristo poder de Dios, y sabiduría de Dios." - La Biblia, en 1 Corintios 1:23-24</p>
+        <h1 class="display-8 fst-italic">Hacer discípulos de Cristo en todas las naciones</h1>
+        <p class="lead my-3">"Y Jesús se acercó y les habló diciendo: Toda potestad me es dada en el cielo y en la tierra. Por tanto, id, y haced discípulos a todas las naciones, bautizándolos en el nombre del Padre, y del Hijo, y del Espíritu Santo; enseñándoles que guarden todas las cosas que os he mandado; y he aquí yo estoy con vosotros todos los días, hasta el fin del mundo. Amén." - La Biblia, en Mateo 28:18-20</p>
         <!-- <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold">Continue reading...</a></p> -->
       </div>
     </div>
 
+    <div class="row align-items-md-stretch">
+        <div class="col-md-12">
+            <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+                <h2>Misión</h2>
+                <p>
+                    Es nuestra misión y propósito desarrollar una congregación con la pasión de conocer a Dios y darlo a conocer a través de nuestra fe reformada. Deseamos ser un 
+                    canal de la Gracia de Dios por el cual Dios busque, salve y restaure a los perdidos a través de nuestro testimonio fiel del Evangelio de Cristo. También queremos 
+                    recibir y discipular a aquellos que Dios añada a su cuerpo instruyéndolos acerca del bautismo por inmersión y la comunión en obediencia al Señor. Deseamos afirmar 
+                    a los creyentes en la sana doctrina como se explica en nuestra Confesión Bautista de Fe de 1689, con el fin de alcanzar madurez en Cristo, manifestando el fruto y 
+                    los dones del Espíritu Santo para el crecimiento y edificación de la iglesia de Cristo y para la gloria de Dios.
+                </p>
+                <p>
+                    Efesios 4:11-16
+                </p>  
+                <p>
+                    Anhelamos ser una iglesia vibrante con el entusiasmo de conocer a Dios y darlo a conocer a medida que crecemos a través del estudio de las Sagrada Escrituras en 
+                    conformidad con nuestra fe reformada, ese sistema doctrinal que mejor explica las Escrituras, tal como se expresa en nuestra Confesión de Fe Bautista de 1689.
+                    Oramos para que Dios use nuestro ministerio para llamar y desarrollar líderes laicos, maestros, ancianos y pastores que puedan pasar el legado de Gracia en la fe 
+                    reformada a la siguiente generación de fieles discípulos de Cristo.
+                </p>
+                <p>
+                    2 Timoteo 2:1-2, 14-15, 3:14-17
+                </p>
+            </div>
+        </div>
+    </div>
 
 
-    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-        <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Título</th>
-                <th scope="col">Ejecutar</th>
-              </tr>
-            </thead>
-            <tbody id="sermons-row-data">
-            </tbody>
-          </table>
-      <!-- <div class="col">
+    <!-- <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+      <div class="col">
         <div class="card mb-4 rounded-3 shadow-sm">
           <div class="card-header py-3">
             <h4 class="my-0 fw-normal">Free</h4>
@@ -345,8 +303,8 @@
             <button type="button" class="w-100 btn btn-lg btn-primary">Contact us</button>
           </div>
         </div>
-      </div> -->
-    </div>
+      </div>
+    </div> -->
 
     <!-- <h2 class="display-6 text-center mb-4">Compare plans</h2>
 
@@ -402,10 +360,10 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
   </main>
 
-  <footer class="pt-4 my-md-5 pt-md-5 border-top">
+  <!-- <footer class="pt-4 my-md-5 pt-md-5 border-top">
     <div class="row">
       <div class="col-12 col-md">
         <img class="mb-2" src="../assets/brand/bootstrap-logo.svg" alt="" width="24" height="19">
@@ -463,55 +421,3 @@
 
     </body>
 </html>
-
-
-
-
-<!-- <html>
-<h1>Test</h1>
-<script>
-    const xhr = new XMLHttpRequest();
-    const podcastsURL = "https://ibdk.s3.amazonaws.com/podcasts/sermones/rss.xml";
-    xhr.open("GET", podcastsURL);
-    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-    xhr.send();
-
-    xhr.onload = () => {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var parser = new DOMParser();
-            var l = xhr.response.length;
-            var xmlDoc = parser.parseFromString(xhr.response, "text/xml");
-
-            var items = xmlDoc.getElementsByTagName("item");
-            for (var i = 0; i < items.length; i++) {
-                var title = items[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-                var duration = items[i].getElementsByTagName("itunes:duration")[0].childNodes[0].nodeValue;
-                var url = items[i].getElementsByTagName("enclosure")[0].getAttribute('url');
-                console.log(`${i + 1} (${duration}) - Title: ${title} : ${url}`);
-            }
-        } else {
-            console.log(`Error: ${xhr.status}`);
-        }
-    };
-
-/*
-Check this to insert received data into HTML DOM:
-
-// get XML 
-var xml = xhr.responseXML;
-
-// get users
-var users = xml.getElementsByTagName("user");
-for (var i = 0; i < users.length; i++) {   
-    var user = users[i].firstChild.nodeValue;
-    var tr = document.createElement("tr");
-    var td = document.createElement("td");
-    var textNode = document.createTextNode(user);
-    td.appendChild(textNode);        
-    tr.appendChild(td);        
-    document.getElementById("tbody").appendChild(tr);
-}   
-*/
-</script>
-
-</html> -->
