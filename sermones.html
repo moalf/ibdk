@@ -87,11 +87,68 @@
       .dropdown-menu:hover {
         display: block;
       }
+      td,thead {
+        text-align: left;
+      }
     </style>
 
     
     <!-- Custom styles for this template -->
     <link href="assets/dist/css/main.css" rel="stylesheet">
+
+    <script defer>
+        const xhr = new XMLHttpRequest();
+        const podcastsURL = "https://ibdk.s3.amazonaws.com/podcasts/sermones/rss.xml";
+        xhr.open("GET", podcastsURL);
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xhr.send();
+    
+        xhr.onload = () => {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var parser = new DOMParser();
+                var l = xhr.response.length;
+                var xmlDoc = parser.parseFromString(xhr.response, "text/xml");
+    
+                var items = xmlDoc.getElementsByTagName("item");
+                var counter = 1;
+                for (var i = 0; i < items.length; i++) {
+                    var title = items[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+                    var duration = items[i].getElementsByTagName("itunes:duration")[0].childNodes[0].nodeValue;
+                    var url = items[i].getElementsByTagName("enclosure")[0].getAttribute('url');
+                    // console.log(`${i + 1} (${duration}) - Title: ${title} : ${url}`);
+                    var sermonRow = document.createElement("tr");
+
+                    // Item number
+                    var sermonRowItem = document.createElement("td");
+                    var nodeDataItem = document.createTextNode(counter);
+                    sermonRowItem.appendChild(nodeDataItem);
+
+                    // Title
+                    var sermonRowTitle = document.createElement("td");
+                    var nodeDataTitle = document.createTextNode(title);
+                    sermonRowTitle.appendChild(nodeDataTitle);
+
+                    // Player
+                    var sermonRowPlayer = document.createElement("audio");
+                    var nodeDataPlayer = document.createTextNode(title);
+                    sermonRowPlayer.appendChild(nodeDataPlayer);
+                    sermonRowPlayer.id       = 'audio-player';
+                    sermonRowPlayer.controls = 'controls';
+                    sermonRowPlayer.src      = url;
+                    sermonRowPlayer.type     = 'audio/mpeg';
+
+                    sermonRow.appendChild(sermonRowItem);
+                    sermonRow.appendChild(sermonRowTitle);
+                    sermonRow.appendChild(sermonRowPlayer);
+
+                    document.getElementById("sermons-row-data").appendChild(sermonRow);
+                    counter = counter + 1;
+                }
+            } else {
+                console.log(`Error: ${xhr.status}`);
+            }
+        };
+    </script>
   </head>
 
   <body>
@@ -197,8 +254,8 @@
           </ul>
         <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="reuniones.html">Reuniones</a>
         <a class="me-3 py-2 link-body-emphasis text-decoration-none nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Recursos</a>
-          <ul class="dropdown-menu">
-Sermones            <li><a class="dropdown-item" href="sermones.html"></a></li>
+          <ul class="dropdown-menu">sermones
+            <li><a class="dropdown-item" href="sermones.html"></a></li>
           </ul>
         <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#">Contacto</a>
         <!-- <a class="py-2 link-body-emphasis text-decoration-none" href="#">Inicio</a> -->
@@ -218,16 +275,27 @@ Sermones            <li><a class="dropdown-item" href="sermones.html"></a></li>
       height: 70vh">
       
       <div class="col-lg-9 px-0">
-        <h1 class="display-8 fst-italic">Cristo Jesús vino al mundo a salvar a los pecadores</h1>
-        <p class="lead my-3">"Pero cuando se manifestó la bondad de Dios nuestro Salvador, y su amor para con los hombres, nos salvó, no por obras de justicia que nosotros hubiéramos hecho, sino por su misericordia...  el cual derramó en nosotros abundantemente por Jesucristo nuestro Salvador, para que justificados por su gracia, viniésemos a ser herederos conforme a la esperanza de la vida eterna." - La Biblia, en Tito 3:3-7</p>
+        <h1 class="display-8 fst-italic">Anunciamos al Único y Suficiente Salvador</h1>
+        <p class="lead my-3">"...pero nosotros predicamos a Cristo crucificado, para los judíos ciertamente tropezadero, y para los gentiles locura; mas para los llamados, así judíos como griegos, Cristo poder de Dios, y sabiduría de Dios." - La Biblia, en 1 Corintios 1:23-24</p>
         <!-- <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold">Continue reading...</a></p> -->
       </div>
     </div>
 
 
 
-    <!-- <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-      <div class="col">
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Título</th>
+                <th scope="col">Ejecutar</th>
+              </tr>
+            </thead>
+            <tbody id="sermons-row-data">
+            </tbody>
+          </table>
+      <!-- <div class="col">
         <div class="card mb-4 rounded-3 shadow-sm">
           <div class="card-header py-3">
             <h4 class="my-0 fw-normal">Free</h4>
@@ -277,8 +345,8 @@ Sermones            <li><a class="dropdown-item" href="sermones.html"></a></li>
             <button type="button" class="w-100 btn btn-lg btn-primary">Contact us</button>
           </div>
         </div>
-      </div>
-    </div> -->
+      </div> -->
+    </div>
 
     <!-- <h2 class="display-6 text-center mb-4">Compare plans</h2>
 
@@ -334,10 +402,10 @@ Sermones            <li><a class="dropdown-item" href="sermones.html"></a></li>
           </tr>
         </tbody>
       </table>
-    </div> -->
+    </div>
   </main>
 
-  <!-- <footer class="pt-4 my-md-5 pt-md-5 border-top">
+  <footer class="pt-4 my-md-5 pt-md-5 border-top">
     <div class="row">
       <div class="col-12 col-md">
         <img class="mb-2" src="../assets/brand/bootstrap-logo.svg" alt="" width="24" height="19">
@@ -395,3 +463,55 @@ Sermones            <li><a class="dropdown-item" href="sermones.html"></a></li>
 
     </body>
 </html>
+
+
+
+
+<!-- <html>
+<h1>Test</h1>
+<script>
+    const xhr = new XMLHttpRequest();
+    const podcastsURL = "https://ibdk.s3.amazonaws.com/podcasts/sermones/rss.xml";
+    xhr.open("GET", podcastsURL);
+    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+    xhr.send();
+
+    xhr.onload = () => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var parser = new DOMParser();
+            var l = xhr.response.length;
+            var xmlDoc = parser.parseFromString(xhr.response, "text/xml");
+
+            var items = xmlDoc.getElementsByTagName("item");
+            for (var i = 0; i < items.length; i++) {
+                var title = items[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+                var duration = items[i].getElementsByTagName("itunes:duration")[0].childNodes[0].nodeValue;
+                var url = items[i].getElementsByTagName("enclosure")[0].getAttribute('url');
+                console.log(`${i + 1} (${duration}) - Title: ${title} : ${url}`);
+            }
+        } else {
+            console.log(`Error: ${xhr.status}`);
+        }
+    };
+
+/*
+Check this to insert received data into HTML DOM:
+
+// get XML 
+var xml = xhr.responseXML;
+
+// get users
+var users = xml.getElementsByTagName("user");
+for (var i = 0; i < users.length; i++) {   
+    var user = users[i].firstChild.nodeValue;
+    var tr = document.createElement("tr");
+    var td = document.createElement("td");
+    var textNode = document.createTextNode(user);
+    td.appendChild(textNode);        
+    tr.appendChild(td);        
+    document.getElementById("tbody").appendChild(tr);
+}   
+*/
+</script>
+
+</html> -->
