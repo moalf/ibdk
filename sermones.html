@@ -110,12 +110,12 @@
                 var xmlDoc = parser.parseFromString(xhr.response, "text/xml");
     
                 var items = xmlDoc.getElementsByTagName("item");
-                var counter = 1;
+                var counter = items.length;
                 for (var i = 0; i < items.length; i++) {
                     var title = items[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
                     var duration = items[i].getElementsByTagName("itunes:duration")[0].childNodes[0].nodeValue;
                     var url = items[i].getElementsByTagName("enclosure")[0].getAttribute('url');
-                    // console.log(`${i + 1} (${duration}) - Title: ${title} : ${url}`);
+                    // console.log(`${counter} (${duration}) - Title: ${title} : ${url}`);
                     var sermonRow = document.createElement("tr");
 
                     // Item number
@@ -142,7 +142,7 @@
                     sermonRow.appendChild(sermonRowPlayer);
 
                     document.getElementById("sermons-row-data").appendChild(sermonRow);
-                    counter = counter + 1;
+                    counter = counter - 1;
                 }
             } else {
                 console.log(`Error: ${xhr.status}`);
